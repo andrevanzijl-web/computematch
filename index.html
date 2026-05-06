@@ -1574,21 +1574,52 @@ function exportCSV() {
 $("#export-csv").addEventListener("click", exportCSV);
 $("#drawer-export").addEventListener("click", exportCSV);
 
-function brokerRequest() {
+async function brokerRequest() {
   const c = state.answers.contact;
   if (!c.email) {
     toast("Please complete contact info in the wizard first");
     return;
   }
-  // In production: POST to your lead-capture endpoint.
-  console.log("[broker request]", {
-    contact: c,
-    answers: state.answers,
-    shortlist: Array.from(state.shortlist),
-    timestamp: new Date().toISOString()
-  });
-  toast("Request sent — we'll be in touch within 24h");
-  closeDrawer();
+  const a = state.answers;
+  const labelOf = (arr, id) => arr.find(x => x.id === id)?.label || "";
+  const top = state.results[0];
+  const payload = {
+    name: c.name || "(not provided)",
+    email: c.email,
+    company: c.company || "(not provided)",
+    wants_broker_help: c.broker ? "Yes" : "No",
+    use_case: labelOf(USE_CASES, a.useCase),
+    team_size: labelOf(TEAM_SIZES, a.teamSize),
+    budget: BUDGET_TIERS[a.budgetTier]?.label || "",
+    gpu_preferences: a.gpuTypes.map(g => labelOf(GPU_TYPES, g)).join(", ") || "(no preference)",
+    priorities: a.priorities.map(p => labelOf(PRIORITIES, p)).join(", ") || "(none selected)",
+    requirements: Object.entries(a.requirements).filter(([, v]) => v).map(([k]) => k).join(", ") || "(none)",
+    top_match: top ? `${top.provider.name} (${top.pct}% match)` : "(no results yet)",
+    shortlist: Array.from(state.shortlist).map(id => PROVIDERS.find(p => p.id === id)?.name).filter(Boolean).join(", ") || "(empty)",
+    submitted_at: new Date().toISOString(),
+    source_url: location.href,
+    _subject: `ComputeMatch lead: ${c.name || c.email}`,
+    _captcha: "false",
+    _template: "table"
+  };
+  toast("Sending…");
+  try {
+    const response = await fetch("https://formsubmit.co/ajax/info@godatacenters.com", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    if (response.ok) {
+      toast("Thanks — we'll be in touch within 24 hours");
+      closeDrawer();
+    } else {
+      console.error("[broker request] non-OK response", response.status);
+      toast("Couldn't send right now — please email info@godatacenters.com");
+    }
+  } catch (err) {
+    console.error("[broker request] failed", err);
+    toast("Couldn't send right now — please email info@godatacenters.com");
+  }
 }
 $("#broker-cta").addEventListener("click", brokerRequest);
 $("#drawer-broker").addEventListener("click", brokerRequest);
