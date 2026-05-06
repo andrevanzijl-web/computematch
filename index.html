@@ -1,0 +1,1643 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ComputeMatch — Find Your Perfect GPU Cloud Provider</title>
+<meta name="description" content="Compare 150+ GPU cloud providers. Get matched to the best fit for your AI workloads in 60 seconds." />
+<style>
+  :root {
+    --bg: #faf8f5;
+    --bg-elev: #ffffff;
+    --bg-muted: #f1ede7;
+    --border: #e6e0d6;
+    --text: #1a1a1a;
+    --text-muted: #6b6660;
+    --accent: #0d9488;
+    --accent-hover: #0b7c72;
+    --accent-soft: #ccfbf1;
+    --accent-text: #134e4a;
+    --green: #16a34a;
+    --green-soft: #dcfce7;
+    --yellow: #ca8a04;
+    --yellow-soft: #fef9c3;
+    --orange: #ea580c;
+    --orange-soft: #ffedd5;
+    --gray: #71717a;
+    --gray-soft: #f4f4f5;
+    --shadow: 0 1px 3px rgba(20,20,20,.04), 0 1px 2px rgba(20,20,20,.06);
+    --shadow-lg: 0 10px 25px rgba(20,20,20,.08), 0 4px 10px rgba(20,20,20,.05);
+    --radius: 10px;
+    --radius-lg: 14px;
+    --font: -apple-system, BlinkMacSystemFont, "Inter", "Satoshi", "Segoe UI", Roboto, sans-serif;
+    --font-display: "Cabinet Grotesk", "Inter", -apple-system, sans-serif;
+  }
+  [data-theme="dark"] {
+    --bg: #0f1115;
+    --bg-elev: #181b22;
+    --bg-muted: #1f232b;
+    --border: #2a2f3a;
+    --text: #f5f5f5;
+    --text-muted: #9aa0a8;
+    --accent: #14b8a6;
+    --accent-hover: #2dd4bf;
+    --accent-soft: #134e4a;
+    --accent-text: #5eead4;
+    --green-soft: #14532d;
+    --yellow-soft: #422006;
+    --orange-soft: #431407;
+    --gray-soft: #27272a;
+    --shadow: 0 1px 3px rgba(0,0,0,.3), 0 1px 2px rgba(0,0,0,.4);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,.4), 0 4px 10px rgba(0,0,0,.5);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    transition: background .25s, color .25s;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; letter-spacing: -.02em; margin: 0; }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); line-height: 1.1; }
+  h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
+  h3 { font-size: 1.15rem; }
+  p { margin: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  button { font-family: inherit; font-size: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+  /* Header */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav {
+    max-width: 1200px; margin: 0 auto; padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.1rem; }
+  .brand-mark {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), #6366f1);
+    display: grid; place-items: center; color: white; font-weight: 800; font-size: .8rem;
+  }
+  .nav-actions { display: flex; align-items: center; gap: 8px; }
+  .icon-btn {
+    width: 38px; height: 38px; border-radius: 8px;
+    display: grid; place-items: center;
+    background: var(--bg-muted); color: var(--text);
+    transition: background .15s;
+  }
+  .icon-btn:hover { background: var(--border); }
+  .badge-shortlist {
+    position: relative;
+  }
+  .badge-shortlist[data-count]:not([data-count="0"])::after {
+    content: attr(data-count);
+    position: absolute; top: -4px; right: -4px;
+    background: var(--accent); color: white;
+    font-size: 10px; font-weight: 700; line-height: 1;
+    border-radius: 999px; padding: 3px 6px; min-width: 16px; text-align: center;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 22px; border-radius: var(--radius);
+    font-weight: 600; font-size: .95rem;
+    transition: transform .08s, background .15s, border-color .15s, color .15s;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: var(--accent-hover); text-decoration: none; }
+  .btn-secondary { background: var(--bg-elev); color: var(--text); border-color: var(--border); }
+  .btn-secondary:hover { background: var(--bg-muted); text-decoration: none; }
+  .btn-ghost { background: transparent; color: var(--text-muted); }
+  .btn-ghost:hover { color: var(--text); background: var(--bg-muted); text-decoration: none; }
+  .btn-sm { padding: 8px 14px; font-size: .85rem; }
+  .btn-lg { padding: 16px 28px; font-size: 1.05rem; }
+
+  /* Hero */
+  .hero {
+    max-width: 1200px; margin: 0 auto;
+    padding: 80px 20px 60px;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-soft); color: var(--accent-text);
+    font-size: .82rem; font-weight: 600;
+    padding: 6px 14px; border-radius: 999px;
+    margin-bottom: 24px;
+  }
+  .hero h1 { max-width: 880px; margin: 0 auto 18px; }
+  .hero h1 .accent { background: linear-gradient(135deg, var(--accent), #6366f1); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p.lead {
+    color: var(--text-muted); font-size: 1.15rem;
+    max-width: 640px; margin: 0 auto 32px;
+  }
+  .hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .hero-stats {
+    display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;
+    margin-top: 56px; color: var(--text-muted); font-size: .9rem;
+  }
+  .hero-stat strong { display: block; color: var(--text); font-size: 1.6rem; font-weight: 700; }
+
+  /* Sections */
+  section.block {
+    max-width: 1200px; margin: 0 auto;
+    padding: 60px 20px;
+  }
+  .section-title { text-align: center; margin-bottom: 12px; }
+  .section-sub { text-align: center; color: var(--text-muted); margin-bottom: 40px; }
+
+  /* Feature cards */
+  .features {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;
+  }
+  .feature {
+    background: var(--bg-elev); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 26px;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .feature:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .feature-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: var(--accent-soft); color: var(--accent-text);
+    display: grid; place-items: center; margin-bottom: 16px; font-size: 22px;
+  }
+  .feature h3 { margin-bottom: 8px; }
+  .feature p { color: var(--text-muted); font-size: .95rem; }
+
+  /* How it works */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+  .step { text-align: center; padding: 24px; }
+  .step-num {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #6366f1); color: white;
+    display: grid; place-items: center; margin: 0 auto 16px;
+    font-weight: 700; font-size: 1.2rem;
+  }
+  .step p { color: var(--text-muted); font-size: .92rem; margin-top: 6px; }
+
+  /* Trust strip */
+  .trust { background: var(--bg-muted); border-block: 1px solid var(--border); padding: 32px 0; }
+  .trust-inner {
+    max-width: 1200px; margin: 0 auto; padding: 0 20px;
+    display: flex; gap: 32px; align-items: center; justify-content: center; flex-wrap: wrap;
+    color: var(--text-muted);
+  }
+  .trust-logo {
+    font-family: var(--font-display); font-weight: 700; opacity: .55; letter-spacing: -.02em; font-size: 1.1rem;
+  }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--border); padding: 40px 20px; text-align: center; color: var(--text-muted); font-size: .9rem; }
+  footer a { color: var(--text-muted); margin: 0 10px; }
+
+  /* Modal / wizard */
+  .modal-backdrop {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(15, 17, 21, .55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .modal-backdrop.open { display: flex; }
+  .wizard {
+    background: var(--bg-elev);
+    border-radius: var(--radius-lg);
+    width: 100%; max-width: 720px;
+    max-height: 92vh; overflow: hidden;
+    display: flex; flex-direction: column;
+    box-shadow: var(--shadow-lg);
+    animation: pop .2s ease-out;
+  }
+  @keyframes pop { from { transform: scale(.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .wizard-header {
+    padding: 18px 24px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 16px; justify-content: space-between;
+  }
+  .progress {
+    flex: 1; height: 6px; background: var(--bg-muted); border-radius: 999px; overflow: hidden;
+  }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #6366f1); transition: width .35s ease; }
+  .wizard-body { padding: 28px 24px; overflow-y: auto; flex: 1; }
+  .wizard-step h2 { margin-bottom: 6px; }
+  .wizard-step .step-hint { color: var(--text-muted); margin-bottom: 22px; font-size: .95rem; }
+  .options { display: grid; gap: 10px; }
+  .option {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--bg-elev); cursor: pointer;
+    transition: border-color .15s, background .15s, transform .05s;
+    user-select: none;
+  }
+  .option:hover { border-color: var(--accent); background: var(--bg-muted); }
+  .option.selected {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent-text);
+  }
+  .option .check {
+    width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--border);
+    display: grid; place-items: center; flex-shrink: 0;
+    background: var(--bg-elev); transition: all .15s;
+  }
+  .option.selected .check { background: var(--accent); border-color: var(--accent); color: white; }
+  .option.selected .check::after { content: "✓"; font-weight: 800; font-size: 13px; }
+  .option .label-strong { font-weight: 600; }
+
+  /* Slider */
+  .budget-slider { padding: 16px 0; }
+  .slider-track { position: relative; height: 6px; background: var(--bg-muted); border-radius: 999px; margin: 38px 8px 24px; }
+  .slider-fill { position: absolute; height: 100%; background: linear-gradient(90deg, var(--accent), #6366f1); border-radius: 999px; }
+  .slider-thumb {
+    position: absolute; top: 50%; width: 22px; height: 22px;
+    background: var(--bg-elev); border: 3px solid var(--accent); border-radius: 50%;
+    transform: translate(-50%, -50%); cursor: grab;
+    box-shadow: var(--shadow);
+  }
+  .slider-thumb:active { cursor: grabbing; transform: translate(-50%, -50%) scale(1.1); }
+  .slider-labels { display: flex; justify-content: space-between; font-size: .7rem; color: var(--text-muted); margin: 0 4px; }
+  .budget-current {
+    text-align: center; font-size: 1.25rem; font-weight: 700;
+    color: var(--accent); padding: 12px;
+    background: var(--accent-soft); border-radius: var(--radius);
+    margin-bottom: 4px;
+  }
+
+  /* Form */
+  .form-group { display: grid; gap: 6px; margin-bottom: 16px; }
+  .form-group label { font-size: .9rem; font-weight: 600; }
+  .form-group input[type="text"], .form-group input[type="email"] {
+    padding: 11px 13px; border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--bg-elev); color: var(--text); font-size: .95rem; font-family: inherit;
+  }
+  .form-group input:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+  .checkbox-row { display: flex; align-items: flex-start; gap: 10px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; }
+  .checkbox-row input { margin-top: 3px; }
+  .toggle-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius);
+    margin-bottom: 8px; cursor: pointer; user-select: none;
+  }
+  .toggle-row:hover { border-color: var(--accent); }
+  .toggle {
+    width: 40px; height: 22px; background: var(--border); border-radius: 999px; position: relative; transition: background .15s; flex-shrink: 0;
+  }
+  .toggle::after {
+    content: ""; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px;
+    background: white; border-radius: 50%; transition: transform .15s;
+  }
+  .toggle-row.on .toggle { background: var(--accent); }
+  .toggle-row.on .toggle::after { transform: translateX(18px); }
+
+  .wizard-footer {
+    padding: 16px 24px; border-top: 1px solid var(--border);
+    display: flex; gap: 12px; justify-content: space-between; align-items: center;
+    background: var(--bg-elev);
+  }
+  .step-counter { color: var(--text-muted); font-size: .85rem; }
+
+  /* Loading */
+  .loading-screen {
+    display: grid; place-items: center; padding: 60px 20px;
+    text-align: center;
+  }
+  .loading-spinner {
+    width: 56px; height: 56px; border-radius: 50%;
+    border: 4px solid var(--bg-muted); border-top-color: var(--accent);
+    animation: spin 1s linear infinite; margin-bottom: 20px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Results */
+  .results-page {
+    display: none;
+    max-width: 1280px; margin: 0 auto; padding: 30px 20px 60px;
+  }
+  .results-page.open { display: block; }
+  .results-header { display: flex; gap: 20px; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; margin-bottom: 24px; }
+  .results-header h2 { margin-bottom: 4px; }
+  .results-header p { color: var(--text-muted); font-size: .95rem; }
+  .results-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .results-layout { display: grid; grid-template-columns: 260px 1fr; gap: 24px; align-items: start; }
+  @media (max-width: 900px) { .results-layout { grid-template-columns: 1fr; } }
+
+  .filters {
+    background: var(--bg-elev); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 20px;
+    position: sticky; top: 80px;
+  }
+  @media (max-width: 900px) { .filters { position: static; } }
+  .filter-group { margin-bottom: 18px; }
+  .filter-group h4 { font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); margin-bottom: 10px; }
+  .filter-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 11px; margin: 0 6px 6px 0;
+    border: 1px solid var(--border); border-radius: 999px;
+    font-size: .8rem; cursor: pointer;
+    background: var(--bg-elev); color: var(--text);
+    transition: all .12s;
+  }
+  .filter-pill.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .filter-pill:hover { border-color: var(--accent); }
+
+  .results-grid { display: grid; gap: 14px; }
+  .provider-card {
+    background: var(--bg-elev); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 20px;
+    display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start;
+    transition: box-shadow .15s, transform .08s, border-color .15s;
+    position: relative;
+  }
+  .provider-card:hover { box-shadow: var(--shadow); border-color: var(--text-muted); }
+  .provider-card.top-match { border-color: var(--accent); }
+  .top-match-badge {
+    position: absolute; top: -10px; left: 16px;
+    background: linear-gradient(135deg, var(--accent), #6366f1); color: white;
+    font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+    padding: 3px 10px; border-radius: 999px; text-transform: uppercase;
+  }
+  .provider-name { font-size: 1.15rem; font-weight: 700; margin-bottom: 4px; }
+  .provider-name a { color: var(--text); }
+  .provider-type { color: var(--text-muted); font-size: .82rem; margin-bottom: 8px; }
+  .provider-desc { color: var(--text-muted); font-size: .92rem; margin-bottom: 12px; }
+  .strength-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .strength-tag {
+    background: var(--bg-muted); color: var(--text);
+    padding: 3px 9px; border-radius: 6px; font-size: .75rem;
+    border: 1px solid var(--border);
+  }
+
+  .match-score-block {
+    text-align: center; min-width: 110px;
+    padding: 8px 12px; border-radius: var(--radius); border: 1px solid var(--border);
+  }
+  .match-score-block.green { background: var(--green-soft); border-color: transparent; }
+  .match-score-block.yellow { background: var(--yellow-soft); border-color: transparent; }
+  .match-score-block.orange { background: var(--orange-soft); border-color: transparent; }
+  .match-score-block.gray { background: var(--gray-soft); border-color: transparent; }
+  .match-percent { font-size: 1.5rem; font-weight: 800; line-height: 1; }
+  .match-percent.green { color: var(--green); }
+  .match-percent.yellow { color: var(--yellow); }
+  .match-percent.orange { color: var(--orange); }
+  .match-percent.gray { color: var(--gray); }
+  .match-label { font-size: .7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; }
+  .card-actions { display: flex; gap: 6px; margin-top: 10px; flex-direction: column; }
+  @media (max-width: 600px) {
+    .provider-card { grid-template-columns: 1fr; }
+    .match-score-block { display: flex; gap: 12px; align-items: center; justify-content: center; min-width: 0; }
+    .card-actions { flex-direction: row; }
+  }
+
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+
+  /* Shortlist drawer */
+  .drawer-backdrop {
+    position: fixed; inset: 0; z-index: 110;
+    background: rgba(15, 17, 21, .45);
+    display: none;
+  }
+  .drawer-backdrop.open { display: block; }
+  .drawer {
+    position: fixed; top: 0; right: 0; bottom: 0; width: 100%; max-width: 460px;
+    background: var(--bg-elev); border-left: 1px solid var(--border);
+    z-index: 120;
+    transform: translateX(100%); transition: transform .28s ease;
+    display: flex; flex-direction: column;
+  }
+  .drawer.open { transform: translateX(0); }
+  .drawer-head { padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .drawer-body { padding: 18px 22px; overflow-y: auto; flex: 1; }
+  .drawer-foot { padding: 16px 22px; border-top: 1px solid var(--border); display: grid; gap: 8px; }
+  .shortlist-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .shortlist-item:last-child { border-bottom: none; }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--text); color: var(--bg);
+    padding: 10px 18px; border-radius: 999px; font-size: .9rem; font-weight: 500;
+    z-index: 200; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(-2px); }
+
+  /* Utility */
+  .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .hidden { display: none !important; }
+  .small-link { font-size: .85rem; color: var(--text-muted); }
+  .small-link:hover { color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .hero { padding: 56px 20px 40px; }
+    section.block { padding: 44px 20px; }
+    .nav { padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">
+      <div class="brand-mark">CM</div>
+      <span>ComputeMatch</span>
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn badge-shortlist" id="shortlist-btn" data-count="0" aria-label="Open shortlist">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      </button>
+      <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="icon-moon" class="hidden"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="btn btn-primary btn-sm" id="cta-start-nav">Start Matching</button>
+    </div>
+  </div>
+</header>
+
+<main id="landing">
+  <section class="hero">
+    <div class="hero-eyebrow">⚡ 150+ providers compared in one place</div>
+    <h1>Find your perfect <span class="accent">GPU cloud provider</span> in 60 seconds</h1>
+    <p class="lead">Stop spending weeks researching providers. Tell us your requirements and we'll match you to the best fit — from hyperscalers to bare metal to spot marketplaces.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary btn-lg" id="cta-start-hero">Start Matching →</button>
+      <a href="#how" class="btn btn-secondary btn-lg">How it works</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>150+</strong>Providers</div>
+      <div class="hero-stat"><strong>7</strong>Quick questions</div>
+      <div class="hero-stat"><strong>60s</strong>To get matched</div>
+      <div class="hero-stat"><strong>$0</strong>To use</div>
+    </div>
+  </section>
+
+  <div class="trust">
+    <div class="trust-inner">
+      <span style="font-size:.85rem; font-weight:600; text-transform: uppercase; letter-spacing:.05em; color: var(--text-muted);">Trusted by AI teams at</span>
+      <span class="trust-logo">Acme AI</span>
+      <span class="trust-logo">Northstar Labs</span>
+      <span class="trust-logo">Vector Studios</span>
+      <span class="trust-logo">Bridgepoint ML</span>
+      <span class="trust-logo">Helix Research</span>
+    </div>
+  </div>
+
+  <section class="block">
+    <h2 class="section-title">Why teams use ComputeMatch</h2>
+    <p class="section-sub">Built by data center industry veterans with 21+ years of experience.</p>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3>Speed</h3>
+        <p>Stop spending weeks researching GPU providers. Get matched in under a minute.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">💵</div>
+        <h3>Cost</h3>
+        <p>Find providers that fit your budget — from $50/month spot rentals to $250k+/month dedicated clusters.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🌐</div>
+        <h3>Choice</h3>
+        <p>Compare 150+ providers including hyperscalers, AI-native clouds, serverless, marketplaces, and bare metal.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🤝</div>
+        <h3>Expertise</h3>
+        <p>Optional broker assistance with contract negotiation, capacity planning, and multi-cloud architecture.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="how">
+    <h2 class="section-title">How it works</h2>
+    <p class="section-sub">Three steps. Zero spreadsheets.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Answer 7 quick questions</h3>
+        <p>Tell us your use case, team size, budget, GPU preferences, and priorities.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Get ranked matches</h3>
+        <p>Our scoring engine ranks all 150 providers by fit and shows your top matches.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Deploy or get help</h3>
+        <p>Go direct to providers, export your shortlist, or request broker assistance.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="text-align: center;">
+    <div style="background: linear-gradient(135deg, var(--accent), #6366f1); border-radius: var(--radius-lg); padding: 56px 28px; color: white;">
+      <h2 style="color: white; margin-bottom: 12px;">Ready to find your match?</h2>
+      <p style="opacity: .92; margin-bottom: 24px; font-size: 1.05rem;">Free, fast, and no signup required.</p>
+      <button class="btn btn-lg" id="cta-start-bottom" style="background: white; color: var(--accent-text);">Start Matching →</button>
+    </div>
+  </section>
+</main>
+
+<!-- Results page -->
+<div class="results-page" id="results-page">
+  <div class="results-header">
+    <div>
+      <h2>Your matches</h2>
+      <p id="results-summary">Showing top providers for your requirements.</p>
+    </div>
+    <div class="results-actions">
+      <button class="btn btn-secondary btn-sm" id="restart-wizard">↻ Restart wizard</button>
+      <button class="btn btn-secondary btn-sm" id="export-csv">⬇ Export shortlist (CSV)</button>
+      <button class="btn btn-primary btn-sm" id="open-shortlist">View shortlist</button>
+    </div>
+  </div>
+
+  <div class="results-layout">
+    <aside class="filters" id="filter-panel">
+      <div class="filter-group">
+        <h4>Provider type</h4>
+        <div id="type-filters"></div>
+      </div>
+      <div class="filter-group">
+        <h4>Features</h4>
+        <button class="filter-pill" data-feat="hasEnterpriseSLA">Enterprise SLA</button>
+        <button class="filter-pill" data-feat="hasGlobalPresence">Global presence</button>
+        <button class="filter-pill" data-feat="supportsSpotInstances">Spot instances</button>
+        <button class="filter-pill" data-feat="offersDedicatedHardware">Bare metal</button>
+      </div>
+      <div class="filter-group">
+        <h4>Min match</h4>
+        <div id="min-match-filters">
+          <button class="filter-pill active" data-min="0">All</button>
+          <button class="filter-pill" data-min="40">40%+</button>
+          <button class="filter-pill" data-min="60">60%+</button>
+          <button class="filter-pill" data-min="80">80%+</button>
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="clear-filters" style="width:100%;">Clear filters</button>
+    </aside>
+
+    <div class="results-grid" id="results-grid"></div>
+  </div>
+
+  <div style="background: var(--accent-soft); color: var(--accent-text); border-radius: var(--radius-lg); padding: 28px; margin-top: 32px; text-align: center;">
+    <h3 style="margin-bottom: 8px;">Need help choosing?</h3>
+    <p style="margin-bottom: 16px; opacity: .9;">Talk to a human broker who can negotiate contracts, design multi-cloud setups, and source capacity.</p>
+    <button class="btn btn-primary" id="broker-cta">Request broker assistance</button>
+  </div>
+</div>
+
+<!-- Wizard modal -->
+<div class="modal-backdrop" id="wizard-modal">
+  <div class="wizard">
+    <div class="wizard-header">
+      <strong style="font-size: .95rem;">Find my match</strong>
+      <div class="progress"><div class="progress-fill" id="progress-fill"></div></div>
+      <button class="icon-btn" id="close-wizard" aria-label="Close">✕</button>
+    </div>
+    <div class="wizard-body" id="wizard-body"></div>
+    <div class="wizard-footer">
+      <button class="btn btn-ghost" id="wiz-back">← Back</button>
+      <span class="step-counter" id="step-counter">Step 1 of 7</span>
+      <button class="btn btn-primary" id="wiz-next">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Drawer -->
+<div class="drawer-backdrop" id="drawer-backdrop"></div>
+<aside class="drawer" id="shortlist-drawer">
+  <div class="drawer-head">
+    <strong>Your shortlist</strong>
+    <button class="icon-btn" id="close-drawer">✕</button>
+  </div>
+  <div class="drawer-body" id="shortlist-body">
+    <p style="color: var(--text-muted);">Add providers to your shortlist from the results page.</p>
+  </div>
+  <div class="drawer-foot">
+    <button class="btn btn-secondary" id="drawer-export">⬇ Export to CSV</button>
+    <button class="btn btn-primary" id="drawer-broker">Request broker assistance</button>
+  </div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div>© ComputeMatch — a StackedAI / GoDataCenters property</div>
+  <div style="margin-top:8px;">
+    <a href="#" id="privacy-link">Privacy</a>
+    <a href="#" id="terms-link">Terms</a>
+    <a href="mailto:hello@stackedai.net">Contact</a>
+  </div>
+</footer>
+
+<script>
+/* ============================================================================
+ * ComputeMatch — single-file static MVP
+ * Spec: 150 providers, 7-step wizard, weighted scoring, shortlist + CSV.
+ * ========================================================================== */
+
+/* ----- Constants & taxonomies ----- */
+const USE_CASES = [
+  { id: "training",  label: "Training large models",     hint: "LLMs, multimodal, foundation models" },
+  { id: "finetune",  label: "Fine-tuning models",         hint: "Adapt pre-trained models to your data" },
+  { id: "inference", label: "Inference at scale",         hint: "Serve models in production" },
+  { id: "notebook",  label: "Notebook / experimentation", hint: "Jupyter, research, ad-hoc work" },
+  { id: "render",    label: "Rendering / graphics",       hint: "3D, video, simulation" },
+  { id: "general",   label: "General-purpose GPU compute",hint: "Mixed workloads" }
+];
+const TEAM_SIZES = [
+  { id: "solo",   label: "Solo developer / researcher" },
+  { id: "small",  label: "Small team (2–10)" },
+  { id: "mid",    label: "Mid-size team (11–50)" },
+  { id: "ent",    label: "Enterprise (50+)" }
+];
+const BUDGET_TIERS = [
+  { id: "t1", label: "Under $500/mo",        min: 0,        max: 500 },
+  { id: "t2", label: "$500 – $2.5k/mo",      min: 500,      max: 2500 },
+  { id: "t3", label: "$2.5k – $10k/mo",      min: 2500,     max: 10000 },
+  { id: "t4", label: "$10k – $50k/mo",       min: 10000,    max: 50000 },
+  { id: "t5", label: "$50k – $250k/mo",      min: 50000,    max: 250000 },
+  { id: "t6", label: "$250k+/mo",            min: 250000,   max: Infinity }
+];
+const GPU_TYPES = [
+  { id: "h100",     label: "NVIDIA H100/H200" },
+  { id: "a100",     label: "NVIDIA A100 (40/80GB)" },
+  { id: "l40s",     label: "NVIDIA L40S" },
+  { id: "a10",      label: "NVIDIA A10/A40" },
+  { id: "rtx4090",  label: "NVIDIA RTX 4090/4080" },
+  { id: "amd",      label: "AMD MI250/MI300" },
+  { id: "any",      label: "No preference / flexible" }
+];
+const PRIORITIES = [
+  { id: "cost",      label: "Lowest cost per GPU-hour" },
+  { id: "speed",     label: "Fastest provisioning / on-demand" },
+  { id: "sla",       label: "Enterprise SLA / reliability" },
+  { id: "global",    label: "Global regions / low latency" },
+  { id: "dx",        label: "Easy onboarding / great DX" },
+  { id: "serverless",label: "Serverless / managed infrastructure" },
+  { id: "compliance",label: "Compliance / security certifications" }
+];
+
+/* ----- Provider taxonomy presets (so we don't hand-roll 150 records) ----- */
+const PRESETS = {
+  hyperscaler: {
+    type: "Hyperscaler GPU cloud",
+    useCases: ["training","finetune","inference","general"],
+    teamSizes: ["mid","ent"],
+    budgetTiers: ["t3","t4","t5","t6"],
+    gpuTypes: ["h100","a100","l40s","a10","any"],
+    strengths: ["sla","global","compliance"],
+    hasEnterpriseSLA: true, hasGlobalPresence: true,
+    supportsSpotInstances: true, offersDedicatedHardware: true,
+    baseScore: 9
+  },
+  aiCloud: {
+    type: "AI-first GPU cloud",
+    useCases: ["training","finetune","inference"],
+    teamSizes: ["small","mid","ent"],
+    budgetTiers: ["t3","t4","t5","t6"],
+    gpuTypes: ["h100","a100","l40s","any"],
+    strengths: ["speed","dx","sla"],
+    hasEnterpriseSLA: true, hasGlobalPresence: false,
+    supportsSpotInstances: false, offersDedicatedHardware: true,
+    baseScore: 8
+  },
+  marketplace: {
+    type: "GPU marketplace",
+    useCases: ["finetune","inference","notebook","render","general"],
+    teamSizes: ["solo","small","mid"],
+    budgetTiers: ["t1","t2","t3","t4"],
+    gpuTypes: ["h100","a100","rtx4090","a10","any"],
+    strengths: ["cost","speed"],
+    hasEnterpriseSLA: false, hasGlobalPresence: false,
+    supportsSpotInstances: true, offersDedicatedHardware: false,
+    baseScore: 6
+  },
+  decentralized: {
+    type: "Decentralized GPU cloud",
+    useCases: ["inference","render","general"],
+    teamSizes: ["solo","small","mid"],
+    budgetTiers: ["t1","t2","t3"],
+    gpuTypes: ["h100","a100","rtx4090","any"],
+    strengths: ["cost"],
+    hasEnterpriseSLA: false, hasGlobalPresence: true,
+    supportsSpotInstances: true, offersDedicatedHardware: false,
+    baseScore: 5
+  },
+  serverless: {
+    type: "Serverless GPU platform",
+    useCases: ["inference","finetune","notebook"],
+    teamSizes: ["solo","small","mid","ent"],
+    budgetTiers: ["t1","t2","t3","t4"],
+    gpuTypes: ["a100","l40s","a10","any"],
+    strengths: ["serverless","dx","speed"],
+    hasEnterpriseSLA: false, hasGlobalPresence: false,
+    supportsSpotInstances: false, offersDedicatedHardware: false,
+    baseScore: 7
+  },
+  devCloud: {
+    type: "Developer-focused GPU cloud",
+    useCases: ["finetune","inference","notebook","general"],
+    teamSizes: ["solo","small","mid"],
+    budgetTiers: ["t1","t2","t3","t4"],
+    gpuTypes: ["a100","l40s","a10","rtx4090","any"],
+    strengths: ["dx","speed","cost"],
+    hasEnterpriseSLA: false, hasGlobalPresence: true,
+    supportsSpotInstances: false, offersDedicatedHardware: false,
+    baseScore: 6
+  },
+  bareMetal: {
+    type: "Bare metal GPU cloud",
+    useCases: ["training","finetune","inference","general"],
+    teamSizes: ["small","mid","ent"],
+    budgetTiers: ["t3","t4","t5","t6"],
+    gpuTypes: ["h100","a100","l40s","any"],
+    strengths: ["sla","compliance"],
+    hasEnterpriseSLA: true, hasGlobalPresence: false,
+    supportsSpotInstances: false, offersDedicatedHardware: true,
+    baseScore: 7
+  },
+  enterprise: {
+    type: "DGX managed services",
+    useCases: ["training","finetune","inference"],
+    teamSizes: ["mid","ent"],
+    budgetTiers: ["t4","t5","t6"],
+    gpuTypes: ["h100","a100","any"],
+    strengths: ["sla","compliance","global"],
+    hasEnterpriseSLA: true, hasGlobalPresence: true,
+    supportsSpotInstances: false, offersDedicatedHardware: true,
+    baseScore: 8
+  },
+  colo: {
+    type: "DGX-ready colocation",
+    useCases: ["training","inference","general"],
+    teamSizes: ["ent"],
+    budgetTiers: ["t5","t6"],
+    gpuTypes: ["h100","a100","any"],
+    strengths: ["sla","global","compliance"],
+    hasEnterpriseSLA: true, hasGlobalPresence: true,
+    supportsSpotInstances: false, offersDedicatedHardware: true,
+    baseScore: 7
+  },
+  regional: {
+    type: "Regional GPU cloud",
+    useCases: ["training","finetune","inference","general"],
+    teamSizes: ["small","mid","ent"],
+    budgetTiers: ["t2","t3","t4","t5"],
+    gpuTypes: ["h100","a100","l40s","any"],
+    strengths: ["compliance","global"],
+    hasEnterpriseSLA: true, hasGlobalPresence: false,
+    supportsSpotInstances: false, offersDedicatedHardware: true,
+    baseScore: 6
+  },
+  storage: {
+    type: "AI storage / infrastructure",
+    useCases: ["training","inference","general"],
+    teamSizes: ["mid","ent"],
+    budgetTiers: ["t4","t5","t6"],
+    gpuTypes: ["h100","a100","any"],
+    strengths: ["sla","compliance"],
+    hasEnterpriseSLA: true, hasGlobalPresence: true,
+    supportsSpotInstances: false, offersDedicatedHardware: true,
+    baseScore: 6
+  }
+};
+
+/* ----- Provider list (150) ----- */
+function P(id, name, website, preset, desc, overrides = {}) {
+  const base = PRESETS[preset];
+  return Object.assign({ id, name, website, description: desc }, base, overrides);
+}
+
+const PROVIDERS = [
+  // Hyperscalers (1-6)
+  P(1, "Amazon Web Services", "aws.amazon.com", "hyperscaler", "EC2 GPU instances with global reach and enterprise SLA."),
+  P(2, "Microsoft Azure",     "azure.microsoft.com", "hyperscaler", "Azure GPU VMs with enterprise focus and global datacenters."),
+  P(3, "Google Cloud",        "cloud.google.com", "hyperscaler", "Cloud GPUs and TPUs over Google's global network."),
+  P(4, "Oracle Cloud Infrastructure", "oracle.com/cloud", "hyperscaler", "OCI GPU instances and bare metal options."),
+  P(5, "IBM Cloud",           "ibm.com/cloud", "hyperscaler", "Enterprise GPU cloud with hybrid cloud support."),
+  P(6, "Huawei Cloud",        "huaweicloud.com", "hyperscaler", "GPU Accelerated Cloud Server with Asia-Pacific focus.", { hasGlobalPresence: false }),
+
+  // AI-first (7-21)
+  P(7,  "NVIDIA DGX Cloud", "nvidia.com", "aiCloud", "Premium DGX systems for the highest performance training workloads.", { baseScore: 10, budgetTiers: ["t5","t6"] }),
+  P(8,  "CoreWeave",        "coreweave.com", "aiCloud", "Kubernetes-native GPU cloud focused on H100 and A100 fleets.", { baseScore: 9 }),
+  P(9,  "Lambda Labs",      "lambda.ai", "aiCloud", "AI-optimized cloud with researcher-friendly pricing.", { budgetTiers: ["t2","t3","t4","t5"] }),
+  P(10, "Crusoe Energy",    "crusoe.ai", "aiCloud", "Energy-efficient AI cloud running large H100 clusters."),
+  P(11, "Voltage Park",     "voltagepark.com", "aiCloud", "Large-scale GPU clusters for AI training."),
+  P(12, "Together AI",      "together.ai", "aiCloud", "Managed GPU clusters for generative AI."),
+  P(13, "GMI Cloud",        "gmicloud.ai", "aiCloud", "AI-native infrastructure platform."),
+  P(14, "Nebius",           "nebius.com", "aiCloud", "AI cloud platform with H100 capacity."),
+  P(15, "Nscale",           "nscale.com", "aiCloud", "GPU nodes optimized for AI workloads."),
+  P(16, "Core42",           "core42.ai", "aiCloud", "UAE-based AI cloud with sovereign-grade infrastructure.", { strengths: ["sla","compliance"] }),
+  P(17, "Firmus",           "firmus.co", "aiCloud", "AI infrastructure provider focused on sustainability."),
+  P(18, "Genesis Cloud",    "genesiscloud.com", "aiCloud", "GPU cloud with competitive pricing.", { budgetTiers: ["t2","t3","t4"] }),
+  P(19, "Novita AI",        "novita.ai", "aiCloud", "GPU cloud and inference platform."),
+  P(20, "AceCloud",         "acecloud.ai", "aiCloud", "GPU cloud services for AI teams."),
+  P(21, "Dataoorts",        "dataoorts.com", "aiCloud", "GPU cloud platform built for AI workloads."),
+
+  // Marketplaces & spot (22-33)
+  P(22, "Vast.ai",          "vast.ai",   "marketplace", "GPU marketplace with the lowest cost per hour.", { baseScore: 7 }),
+  P(23, "TensorDock",       "tensordock.com", "marketplace", "GPU marketplace including consumer GPUs."),
+  P(24, "io.net",           "io.net", "decentralized", "Decentralized GPU network."),
+  P(25, "Akash Network",    "akash.network", "decentralized", "Decentralized cloud marketplace."),
+  P(26, "SaladCloud",       "salad.com", "decentralized", "Distributed GPU cloud at the edge."),
+  P(27, "Aethir",           "aethir.com", "decentralized", "Decentralized GPU infrastructure."),
+  P(28, "Lightning AI",     "lightning.ai", "marketplace", "GPU marketplace and developer platform."),
+  P(29, "Compute Exchange", "compute.exchange", "marketplace", "Open GPU compute marketplace."),
+  P(30, "SLYD",             "slyd.com", "marketplace", "Compute marketplace."),
+  P(31, "Fluidstack",       "fluidstack.io", "marketplace", "GPU cluster marketplace.", { baseScore: 7, gpuTypes: ["h100","a100","l40s","any"] }),
+  P(32, "PoolCompute",      "poolcompute.com", "marketplace", "GPU marketplace."),
+  P(33, "Prime Intellect",  "primeintellect.ai", "marketplace", "Distributed compute platform for training."),
+
+  // Serverless (34-44)
+  P(34, "Modal",            "modal.com", "serverless", "Serverless GPU, Python-native developer experience.", { baseScore: 8 }),
+  P(35, "Replicate",        "replicate.com", "serverless", "Hosted models with serverless inference.", { baseScore: 8 }),
+  P(36, "Baseten",          "baseten.co", "serverless", "Serverless ML infrastructure."),
+  P(37, "Fal AI",           "fal.ai", "serverless", "Fast serverless inference for diffusion and LLMs."),
+  P(38, "Beam Cloud",       "beam.cloud", "serverless", "Serverless GPU containers."),
+  P(39, "Cerebrium",        "cerebrium.ai", "serverless", "Serverless ML deployment."),
+  P(40, "Koyeb",            "koyeb.com", "serverless", "Serverless GPU platform."),
+  P(41, "Banana",           "banana.dev", "serverless", "GPU inference API."),
+  P(42, "Hugging Face Inference", "huggingface.co", "serverless", "Managed inference endpoints with model hub integration.", { baseScore: 8 }),
+  P(43, "Lamini",           "lamini.ai", "serverless", "LLM platform with managed GPU compute."),
+  P(44, "RunPod",           "runpod.io", "serverless", "GPU cloud with serverless and pod options.", { baseScore: 7, supportsSpotInstances: true, gpuTypes: ["h100","a100","rtx4090","a10","any"] }),
+
+  // Developer-focused (45-54)
+  P(45, "DigitalOcean",     "digitalocean.com", "devCloud", "Simple GPU droplets for builders."),
+  P(46, "Vultr",            "vultr.com", "devCloud", "GPU instances with easy provisioning."),
+  P(47, "Paperspace",       "paperspace.com", "devCloud", "GPU cloud with managed notebooks."),
+  P(48, "Civo",             "civo.com", "devCloud", "Fast GPU provisioning."),
+  P(49, "Scaleway",         "scaleway.com", "devCloud", "European GPU cloud."),
+  P(50, "OVHcloud",         "us.ovhcloud.com", "devCloud", "European provider with GPUs and bare metal.", { offersDedicatedHardware: true }),
+  P(51, "UpCloud",          "upcloud.com", "devCloud", "Fast GPU servers."),
+  P(52, "Akamai",           "akamai.com", "devCloud", "GPU cloud with edge locations."),
+  P(53, "Gcore",            "gcore.com", "devCloud", "GPU cloud with global edge network.", { hasGlobalPresence: true }),
+  P(54, "Saturn Cloud",     "saturncloud.io", "devCloud", "ML platform with managed GPU access."),
+
+  // Bare metal & dedicated (55-74)
+  P(55, "Cirrascale Cloud Services", "cirrascale.com", "bareMetal", "Dedicated GPU infrastructure."),
+  P(56, "Bitdeer AI",       "bitdeer.ai", "bareMetal", "Bare metal AI cloud."),
+  P(57, "Atlas Cloud",      "atlascloud.ai", "bareMetal", "Bare metal GPUs."),
+  P(58, "Hivelocity",       "hivelocity.net", "bareMetal", "Dedicated GPU servers."),
+  P(59, "phoenixNAP",       "phoenixnap.com", "bareMetal", "Bare metal GPU servers."),
+  P(60, "Atlantic.Net",     "atlantic.net", "bareMetal", "GPU cloud hosting."),
+  P(61, "TurnKey Internet", "turnkeyinternet.net", "bareMetal", "GPU server hosting."),
+  P(62, "SharkTech",        "sharktech.net", "bareMetal", "GPU dedicated servers."),
+  P(63, "Leaseweb",         "leaseweb.com", "bareMetal", "Dedicated GPU infrastructure with global coverage.", { hasGlobalPresence: true }),
+  P(64, "Petronella Technology", "petronellatech.com", "bareMetal", "GPU hosting services."),
+  P(65, "DataCrunch",       "datacrunch.io", "bareMetal", "GPU cloud provider."),
+  P(66, "Hyperstack",       "hyperstack.cloud", "bareMetal", "GPU cloud infrastructure."),
+  P(67, "HOSTKEY",          "hostkey.com", "bareMetal", "GPU dedicated servers."),
+  P(68, "ZenoCloud",        "zenocloud.io", "bareMetal", "GPU dedicated hosting."),
+  P(69, "LeaderGPU",        "leadergpu.com", "bareMetal", "GPU cloud rental."),
+  P(70, "Hostrunway",       "hostrunway.com", "bareMetal", "GPU cloud servers."),
+  P(71, "HostUpCloud",      "hostupcloud.com", "bareMetal", "GPU server hosting."),
+  P(72, "GPU4Host",         "gpu4host.com", "bareMetal", "AI GPU hosting."),
+  P(73, "GPUYard",          "gpuyard.com", "bareMetal", "Specialized A100 hosting.", { gpuTypes: ["a100","any"] }),
+  P(74, "Sustainable Metal Cloud", "smc.co", "bareMetal", "Bare metal GPU cloud focused on sustainability."),
+
+  // Enterprise & managed (75-85)
+  P(75, "Rackspace Technology", "rackspace.com", "enterprise", "DGX managed services."),
+  P(76, "Penguin Solutions",    "penguinsolutions.com", "enterprise", "DGX systems and HPC support."),
+  P(77, "Quantiphi",            "quantiphi.com", "enterprise", "AI consulting with DGX deployments."),
+  P(78, "Deloitte",             "deloitte.com", "enterprise", "Enterprise AI infrastructure consulting."),
+  P(79, "Insight Enterprises",  "insight.com", "enterprise", "DGX managed services."),
+  P(80, "ePlus",                "eplus.com", "enterprise", "AI infrastructure as a service."),
+  P(81, "Anyscale",             "anyscale.com", "aiCloud", "Managed Ray clusters with GPU.", { strengths: ["dx","sla"] }),
+  P(82, "Clarifai",             "clarifai.com", "serverless", "AI platform with managed compute."),
+  P(83, "Weights & Biases",     "wandb.ai", "serverless", "ML platform with launchable GPU jobs."),
+  P(84, "Exabits",              "exabits.ai", "aiCloud", "AI compute infrastructure."),
+  P(85, "MassiveGRID",          "massivegrid.com", "bareMetal", "GPU infrastructure hosting."),
+
+  // DGX-ready colocation (86-115)
+  P(86,  "Equinix",          "equinix.com", "colo", "Global colocation, DGX-ready facilities."),
+  P(87,  "Digital Realty",   "digitalrealty.com", "colo", "DGX-ready colocation worldwide."),
+  P(88,  "Flexential",       "flexential.com", "colo", "DGX-ready data centers across the US."),
+  P(89,  "Switch",           "switch.com", "colo", "High-density GPU colocation."),
+  P(90,  "Vantage Data Centers", "vantage-dc.com", "colo", "DGX-ready hyperscale facilities."),
+  P(91,  "CoreSite",         "coresite.com", "colo", "DGX-ready colocation."),
+  P(92,  "CyrusOne",         "cyrusone.com", "colo", "Enterprise colocation."),
+  P(93,  "DataBank",         "databank.com", "colo", "DGX-ready partner."),
+  P(94,  "QTS",              "qtsdatacenters.com", "colo", "Hyperscale colocation."),
+  P(95,  "Aligned Data Centers", "aligneddc.com", "colo", "AI-optimized infrastructure."),
+  P(96,  "Colovore",         "colovore.com", "colo", "High-density AI colocation."),
+  P(97,  "STACK Infrastructure", "stackinfra.com", "colo", "Hyperscale data centers."),
+  P(98,  "EdgeConneX",       "edgeconnex.com", "colo", "Edge colocation."),
+  P(99,  "NTT Ltd.",         "global.ntt", "colo", "Global data center operator."),
+  P(100, "Cyxtera",          "cyxtera.com", "colo", "Colocation and bare metal."),
+  P(101, "Interxion",        "interxion.com", "colo", "European colocation."),
+  P(102, "Global Switch",    "globalswitch.com", "colo", "DGX-ready facilities."),
+  P(103, "NEXTDC",           "nextdc.com", "colo", "Australia and Asia-Pacific colocation.", { hasGlobalPresence: false }),
+  P(104, "AirTrunk",         "airtrunk.com", "colo", "Asia-Pacific hyperscale colocation."),
+  P(105, "Verne Global",     "verneglobal.com", "colo", "Iceland-based green data centers."),
+  P(106, "EcoDataCenter",    "ecodatacenter.tech", "colo", "Sustainable colocation."),
+  P(107, "atNorth",          "atnorth.com", "colo", "Nordic colocation."),
+  P(108, "Kao Data",         "kaodata.com", "colo", "UK HPC and AI colocation."),
+  P(109, "Fujitsu",          "fujitsu.com", "colo", "Japan colocation partner."),
+  P(110, "IDC Frontier",     "idcf.jp", "colo", "Japan data centers.", { hasGlobalPresence: false }),
+  P(111, "AUBix",            "aubix.net", "colo", "AI-enabled colocation."),
+  P(112, "ScaleMatrix",      "scalematrix.com", "colo", "Colocation provider."),
+  P(113, "ServerFarm",       "serverfarmllc.com", "colo", "Colocation services."),
+  P(114, "Colohouse",        "colohouse.com", "colo", "AI infrastructure hosting."),
+  P(115, "CDC Data Centres", "cdc.com", "colo", "Australian colocation.", { hasGlobalPresence: false }),
+
+  // Regional & specialized (116-140)
+  P(116, "Tencent Cloud",    "tencentcloud.com", "regional", "China hyperscaler.", { hasGlobalPresence: false }),
+  P(117, "Alibaba Cloud",    "alibabacloud.com", "regional", "China and Asia GPU cloud.", { hasGlobalPresence: true }),
+  P(118, "HighReso",         "highreso.jp", "regional", "Japan-based GPU cloud."),
+  P(119, "SimplePod",        "simplepod.ai", "devCloud", "Simple GPU cloud platform."),
+  P(120, "GPU Mart",         "gpu-mart.com", "bareMetal", "GPU hosting services."),
+  P(121, "Cloudzy",          "cloudzy.com", "devCloud", "GPU VPS provider."),
+  P(122, "WiLine Networks",  "wiline.com", "regional", "GPU-as-a-Service for the enterprise."),
+  P(123, "Dihuni",           "dihuni.com", "enterprise", "GPU cloud systems integrator."),
+  P(124, "Thunder Compute",  "thundercompute.com", "marketplace", "Low-cost GPU cloud."),
+  P(125, "Seeweb",           "seeweb.it", "regional", "European GPU cloud."),
+  P(126, "Sify Technologies","sifytechnologies.com", "regional", "India-based colocation and cloud."),
+  P(127, "Africa Data Centres", "africadatacentres.com", "colo", "Africa-focused colocation.", { hasGlobalPresence: false }),
+  P(128, "Teraco",           "teraco.co.za", "colo", "South Africa colocation.", { hasGlobalPresence: false }),
+  P(129, "Csquare",          "csquare.com", "colo", "Singapore colocation."),
+  P(130, "Khazna Data Centers", "khaznadatacenters.com", "colo", "Middle East data center operator.", { hasGlobalPresence: false }),
+  P(131, "BDx Data Centers", "bdxworld.com", "colo", "Southeast Asia colocation."),
+  P(132, "Princeton Digital Group", "princetondg.com", "colo", "Asia-Pacific data center platform."),
+  P(133, "Yotta Data Services", "yotta.com", "colo", "India AI-ready colocation."),
+  P(134, "NTT DOCOMO BUSINESS", "ntt.com", "colo", "Japan data centers and managed services."),
+  P(135, "NTT DATA",         "nttdata.com", "enterprise", "Global enterprise IT and AI infrastructure."),
+  P(136, "MEGA D.C",         "megadc.com", "colo", "Colocation provider."),
+  P(137, "Borealis Data Center", "bdc.is", "colo", "Iceland colocation."),
+  P(138, "ClusterPower",     "clusterpower.com", "colo", "European colocation."),
+  P(139, "Bulk Infrastructure","bulkinfrastructure.com", "colo", "Nordics colocation."),
+  P(140, "SCAN",             "scan.co.uk", "enterprise", "UK DGX partner."),
+
+  // Infrastructure & storage (141-150)
+  P(141, "VAST Data",        "vastdata.com", "storage", "AI storage infrastructure."),
+  P(142, "WEKA",             "weka.io", "storage", "GPU-accelerated storage platform."),
+  P(143, "Lightbits Labs",   "lightbitslabs.com", "storage", "Cloud data platform for AI."),
+  P(144, "Foxconn",          "foxconn.com", "enterprise", "NVIDIA Cloud Partner."),
+  P(145, "SoftBank Corp.",   "softbank.jp", "enterprise", "NVIDIA Cloud Partner in Japan."),
+  P(146, "PTC System",       "ptcsys.com", "enterprise", "DGX managed services."),
+  P(147, "IIJ Global Solutions", "iijglobal.co.jp", "enterprise", "Japan managed GPU services."),
+  P(148, "Aixia",            "aixia.se", "enterprise", "Sweden-based AI as a service."),
+  P(149, "Xenon",            "xenon.com.au", "enterprise", "Australia DGX partner.", { hasGlobalPresence: false }),
+  P(150, "DataSpace",        "dataspace.com", "colo", "NVIDIA partner colocation services.")
+];
+
+/* Sanity check */
+console.log("ComputeMatch loaded with", PROVIDERS.length, "providers");
+
+/* ============================================================================
+ * State
+ * ========================================================================== */
+const state = {
+  step: 0,
+  totalSteps: 7,
+  answers: {
+    useCase: null,
+    teamSize: null,
+    budgetTier: 2,        // index into BUDGET_TIERS
+    gpuTypes: [],
+    priorities: [],
+    requirements: { sla: false, global: false, spotOk: false, bareMetal: false },
+    contact: { name: "", email: "", company: "", broker: false }
+  },
+  results: [],
+  shortlist: new Set(),
+  filters: { types: new Set(), features: new Set(), minMatch: 0 }
+};
+
+/* ============================================================================
+ * Scoring algorithm (per spec)
+ * ========================================================================== */
+function scoreProvider(provider, answers) {
+  let score = provider.baseScore; // tie-breaker baseline (1-10)
+  let max = 10;
+
+  // Use case match (30%)
+  max += 30;
+  if (answers.useCase && provider.useCases.includes(answers.useCase)) score += 30;
+  else if (answers.useCase && provider.useCases.length >= 4) score += 15; // partial
+
+  // Team size match (15%)
+  max += 15;
+  if (answers.teamSize) {
+    const order = ["solo","small","mid","ent"];
+    if (provider.teamSizes.includes(answers.teamSize)) score += 15;
+    else {
+      const idx = order.indexOf(answers.teamSize);
+      const adjacent = [order[idx-1], order[idx+1]].filter(Boolean);
+      if (adjacent.some(a => provider.teamSizes.includes(a))) score += 8;
+    }
+  }
+
+  // Budget match (25%)
+  max += 25;
+  const userTier = BUDGET_TIERS[answers.budgetTier].id;
+  if (provider.budgetTiers.includes(userTier)) score += 25;
+  else {
+    const tIdx = BUDGET_TIERS.findIndex(t => t.id === userTier);
+    const neighbors = [BUDGET_TIERS[tIdx-1]?.id, BUDGET_TIERS[tIdx+1]?.id].filter(Boolean);
+    if (neighbors.some(n => provider.budgetTiers.includes(n))) score += 12;
+  }
+
+  // GPU type match (20%, max 60 if all 3 match)
+  max += 60;
+  const gpuMatches = answers.gpuTypes.filter(g => provider.gpuTypes.includes(g) || g === "any");
+  score += Math.min(gpuMatches.length * 20, 60);
+
+  // Priorities match (10%, max 30 if all 3 match)
+  max += 30;
+  const priMatches = answers.priorities.filter(p => provider.strengths.includes(p));
+  score += Math.min(priMatches.length * 10, 30);
+
+  // Requirements penalties
+  if (answers.requirements.sla && !provider.hasEnterpriseSLA) score -= 50;
+  if (answers.requirements.global && !provider.hasGlobalPresence) score -= 30;
+  if (answers.requirements.bareMetal && !provider.offersDedicatedHardware) score -= 20;
+  // Spot ok = no penalty if not supported, but bonus if supported
+  if (answers.requirements.spotOk && provider.supportsSpotInstances) score += 5;
+
+  // Normalize to percentage (0-100)
+  const pct = Math.max(0, Math.min(100, Math.round((score / max) * 100)));
+  return { score, pct, gpuMatches: gpuMatches.length, priMatches: priMatches.length };
+}
+
+function computeResults() {
+  const ranked = PROVIDERS
+    .map(p => ({ provider: p, ...scoreProvider(p, state.answers) }))
+    .sort((a, b) => b.pct - a.pct || b.provider.baseScore - a.provider.baseScore);
+  return ranked;
+}
+
+function matchTier(pct) {
+  if (pct >= 80) return "green";
+  if (pct >= 60) return "yellow";
+  if (pct >= 40) return "orange";
+  return "gray";
+}
+
+/* ============================================================================
+ * Wizard rendering
+ * ========================================================================== */
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+function renderWizard() {
+  const body = $("#wizard-body");
+  const step = state.step;
+  const fill = $("#progress-fill");
+  fill.style.width = `${((step + 1) / state.totalSteps) * 100}%`;
+  $("#step-counter").textContent = `Step ${step + 1} of ${state.totalSteps}`;
+
+  if (step === 0) {
+    body.innerHTML = `
+      <div class="wizard-step">
+        <h2>What's your primary use case?</h2>
+        <p class="step-hint">Pick the workload that matters most. We'll use this to weight matches.</p>
+        <div class="options" id="opts-usecase">
+          ${USE_CASES.map(u => `
+            <div class="option ${state.answers.useCase === u.id ? "selected" : ""}" data-id="${u.id}">
+              <div class="check"></div>
+              <div>
+                <div class="label-strong">${u.label}</div>
+                <div style="font-size:.85rem; color: var(--text-muted);">${u.hint}</div>
+              </div>
+            </div>`).join("")}
+        </div>
+      </div>`;
+    $$("#opts-usecase .option").forEach(el => el.addEventListener("click", () => {
+      state.answers.useCase = el.dataset.id;
+      renderWizard();
+    }));
+  }
+
+  else if (step === 1) {
+    body.innerHTML = `
+      <div class="wizard-step">
+        <h2>How big is your team?</h2>
+        <p class="step-hint">This helps us match you to providers sized for your needs.</p>
+        <div class="options" id="opts-team">
+          ${TEAM_SIZES.map(t => `
+            <div class="option ${state.answers.teamSize === t.id ? "selected" : ""}" data-id="${t.id}">
+              <div class="check"></div>
+              <div class="label-strong">${t.label}</div>
+            </div>`).join("")}
+        </div>
+      </div>`;
+    $$("#opts-team .option").forEach(el => el.addEventListener("click", () => {
+      state.answers.teamSize = el.dataset.id;
+      renderWizard();
+    }));
+  }
+
+  else if (step === 2) {
+    const tier = BUDGET_TIERS[state.answers.budgetTier];
+    body.innerHTML = `
+      <div class="wizard-step">
+        <h2>What's your monthly budget?</h2>
+        <p class="step-hint">Drag the slider. We'll show providers that fit and adjacent tiers.</p>
+        <div class="budget-current" id="budget-current">${tier.label}</div>
+        <div class="budget-slider">
+          <div class="slider-track" id="slider-track">
+            <div class="slider-fill" id="slider-fill"></div>
+            <div class="slider-thumb" id="slider-thumb"></div>
+          </div>
+          <div class="slider-labels">
+            ${BUDGET_TIERS.map(t => `<span>${t.label.replace("/mo","").replace("Under ","<")}</span>`).join("")}
+          </div>
+        </div>
+        <div style="margin-top: 12px; padding: 12px; background: var(--bg-muted); border-radius: var(--radius); font-size:.85rem; color: var(--text-muted);">
+          Tip: Most ML teams underestimate burst spend. If in doubt, pick the higher tier — providers in the lower tier still appear with a small penalty.
+        </div>
+      </div>`;
+    setupSlider();
+  }
+
+  else if (step === 3) {
+    body.innerHTML = `
+      <div class="wizard-step">
+        <h2>Which GPUs do you prefer?</h2>
+        <p class="step-hint">Select up to 3. Or pick "no preference" if you're flexible.</p>
+        <div class="options" id="opts-gpu">
+          ${GPU_TYPES.map(g => `
+            <div class="option ${state.answers.gpuTypes.includes(g.id) ? "selected" : ""}" data-id="${g.id}">
+              <div class="check"></div>
+              <div class="label-strong">${g.label}</div>
+            </div>`).join("")}
+        </div>
+      </div>`;
+    $$("#opts-gpu .option").forEach(el => el.addEventListener("click", () => {
+      const id = el.dataset.id;
+      const set = state.answers.gpuTypes;
+      const idx = set.indexOf(id);
+      if (idx >= 0) set.splice(idx, 1);
+      else if (set.length < 3) set.push(id);
+      else { toast("Up to 3 GPU types"); return; }
+      renderWizard();
+    }));
+  }
+
+  else if (step === 4) {
+    body.innerHTML = `
+      <div class="wizard-step">
+        <h2>What matters most to you?</h2>
+        <p class="step-hint">Pick up to 3 priorities. We'll weight them in your matches.</p>
+        <div class="options" id="opts-pri">
+          ${PRIORITIES.map(p => `
+            <div class="option ${state.answers.priorities.includes(p.id) ? "selected" : ""}" data-id="${p.id}">
+              <div class="check"></div>
+              <div class="label-strong">${p.label}</div>
+            </div>`).join("")}
+        </div>
+      </div>`;
+    $$("#opts-pri .option").forEach(el => el.addEventListener("click", () => {
+      const id = el.dataset.id;
+      const set = state.answers.priorities;
+      const idx = set.indexOf(id);
+      if (idx >= 0) set.splice(idx, 1);
+      else if (set.length < 3) set.push(id);
+      else { toast("Up to 3 priorities"); return; }
+      renderWizard();
+    }));
+  }
+
+  else if (step === 5) {
+    const r = state.answers.requirements;
+    body.innerHTML = `
+      <div class="wizard-step">
+        <h2>Any hard requirements?</h2>
+        <p class="step-hint">Optional. These act as filters — providers without them get penalized.</p>
+        <div class="toggle-row ${r.sla ? "on" : ""}" data-req="sla"><div><div class="label-strong">Need enterprise SLA / support</div><div style="font-size:.85rem; color: var(--text-muted);">99.9%+ uptime, dedicated AM</div></div><div class="toggle"></div></div>
+        <div class="toggle-row ${r.global ? "on" : ""}" data-req="global"><div><div class="label-strong">Need global datacenter presence</div><div style="font-size:.85rem; color: var(--text-muted);">Multi-region for low latency</div></div><div class="toggle"></div></div>
+        <div class="toggle-row ${r.spotOk ? "on" : ""}" data-req="spotOk"><div><div class="label-strong">OK with spot / variable availability</div><div style="font-size:.85rem; color: var(--text-muted);">Trade reliability for cost</div></div><div class="toggle"></div></div>
+        <div class="toggle-row ${r.bareMetal ? "on" : ""}" data-req="bareMetal"><div><div class="label-strong">Need bare metal / dedicated hardware</div><div style="font-size:.85rem; color: var(--text-muted);">No multi-tenancy</div></div><div class="toggle"></div></div>
+      </div>`;
+    $$(".toggle-row").forEach(el => el.addEventListener("click", () => {
+      const k = el.dataset.req;
+      state.answers.requirements[k] = !state.answers.requirements[k];
+      renderWizard();
+    }));
+  }
+
+  else if (step === 6) {
+    const c = state.answers.contact;
+    body.innerHTML = `
+      <div class="wizard-step">
+        <h2>Want broker assistance? (optional)</h2>
+        <p class="step-hint">Skip this step or share your details if you'd like a human to help negotiate contracts and capacity.</p>
+        <div class="form-group"><label>Name</label><input type="text" id="c-name" value="${c.name || ""}" placeholder="Your name"></div>
+        <div class="form-group"><label>Email</label><input type="email" id="c-email" value="${c.email || ""}" placeholder="you@company.com"></div>
+        <div class="form-group"><label>Company (optional)</label><input type="text" id="c-company" value="${c.company || ""}" placeholder="Acme AI"></div>
+        <label class="checkbox-row">
+          <input type="checkbox" id="c-broker" ${c.broker ? "checked" : ""}>
+          <span><strong>I'd like broker assistance</strong> negotiating contracts, sourcing capacity, or building a multi-cloud strategy.</span>
+        </label>
+        <p style="font-size:.8rem; color: var(--text-muted); margin-top: 16px;">Your info is only used to follow up. We don't share or sell data.</p>
+      </div>`;
+    $("#c-name").addEventListener("input", e => state.answers.contact.name = e.target.value);
+    $("#c-email").addEventListener("input", e => state.answers.contact.email = e.target.value);
+    $("#c-company").addEventListener("input", e => state.answers.contact.company = e.target.value);
+    $("#c-broker").addEventListener("change", e => state.answers.contact.broker = e.target.checked);
+  }
+
+  // Update nav buttons
+  $("#wiz-back").style.visibility = step === 0 ? "hidden" : "visible";
+  $("#wiz-next").textContent = step === state.totalSteps - 1 ? "See my matches →" : "Next →";
+  $("#wiz-next").disabled = !canAdvance();
+  $("#wiz-next").style.opacity = canAdvance() ? 1 : 0.5;
+  $("#wiz-next").style.cursor = canAdvance() ? "pointer" : "not-allowed";
+}
+
+function canAdvance() {
+  switch (state.step) {
+    case 0: return !!state.answers.useCase;
+    case 1: return !!state.answers.teamSize;
+    case 2: return true;
+    case 3: return true; // optional, can skip with "any"
+    case 4: return true; // optional
+    case 5: return true; // optional
+    case 6: return true; // optional contact
+    default: return false;
+  }
+}
+
+/* Slider logic */
+function setupSlider() {
+  const track = $("#slider-track");
+  const thumb = $("#slider-thumb");
+  const fill = $("#slider-fill");
+  const cur = $("#budget-current");
+  const tiers = BUDGET_TIERS.length;
+  const update = (idx) => {
+    state.answers.budgetTier = Math.max(0, Math.min(tiers - 1, idx));
+    const pct = (state.answers.budgetTier / (tiers - 1)) * 100;
+    thumb.style.left = pct + "%";
+    fill.style.width = pct + "%";
+    cur.textContent = BUDGET_TIERS[state.answers.budgetTier].label;
+  };
+  update(state.answers.budgetTier);
+
+  let dragging = false;
+  const onMove = (e) => {
+    if (!dragging) return;
+    const rect = track.getBoundingClientRect();
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    const pct = Math.max(0, Math.min(1, x / rect.width));
+    const idx = Math.round(pct * (tiers - 1));
+    update(idx);
+  };
+  const start = (e) => { dragging = true; onMove(e); e.preventDefault(); };
+  const stop = () => { dragging = false; };
+  track.addEventListener("mousedown", start);
+  track.addEventListener("touchstart", start, { passive: false });
+  document.addEventListener("mousemove", onMove);
+  document.addEventListener("touchmove", onMove, { passive: false });
+  document.addEventListener("mouseup", stop);
+  document.addEventListener("touchend", stop);
+  // Also click-to-jump
+  track.addEventListener("click", (e) => { dragging = true; onMove(e); dragging = false; });
+}
+
+/* ============================================================================
+ * Wizard navigation
+ * ========================================================================== */
+function openWizard() {
+  state.step = 0;
+  $("#wizard-modal").classList.add("open");
+  document.body.style.overflow = "hidden";
+  renderWizard();
+}
+function closeWizard() {
+  $("#wizard-modal").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+$("#cta-start-hero")?.addEventListener("click", openWizard);
+$("#cta-start-bottom")?.addEventListener("click", openWizard);
+$("#cta-start-nav")?.addEventListener("click", openWizard);
+$("#close-wizard")?.addEventListener("click", closeWizard);
+$("#restart-wizard")?.addEventListener("click", () => {
+  $("#results-page").classList.remove("open");
+  $("#landing").style.display = "";
+  openWizard();
+});
+
+$("#wiz-back").addEventListener("click", () => {
+  if (state.step > 0) { state.step--; renderWizard(); }
+});
+$("#wiz-next").addEventListener("click", () => {
+  if (!canAdvance()) return;
+  if (state.step < state.totalSteps - 1) { state.step++; renderWizard(); }
+  else finishWizard();
+});
+
+function finishWizard() {
+  // Loading screen
+  $("#wizard-body").innerHTML = `
+    <div class="loading-screen">
+      <div class="loading-spinner"></div>
+      <h3>Matching you with the best providers…</h3>
+      <p style="color: var(--text-muted); margin-top: 8px;">Scoring 150 providers across 7 dimensions.</p>
+    </div>`;
+  $("#wiz-back").disabled = true;
+  $("#wiz-next").disabled = true;
+  $("#progress-fill").style.width = "100%";
+
+  setTimeout(() => {
+    state.results = computeResults();
+    closeWizard();
+    $("#wiz-back").disabled = false;
+    $("#wiz-next").disabled = false;
+    showResults();
+  }, 1100);
+}
+
+/* ============================================================================
+ * Results rendering
+ * ========================================================================== */
+function showResults() {
+  $("#landing").style.display = "none";
+  $("#results-page").classList.add("open");
+  buildTypeFilters();
+  renderResults();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function buildTypeFilters() {
+  const types = Array.from(new Set(PROVIDERS.map(p => p.type))).sort();
+  const html = types.map(t => `<button class="filter-pill" data-type="${t}">${t}</button>`).join(" ");
+  $("#type-filters").innerHTML = html;
+  $$("#type-filters .filter-pill").forEach(el => el.addEventListener("click", () => {
+    const t = el.dataset.type;
+    el.classList.toggle("active");
+    if (state.filters.types.has(t)) state.filters.types.delete(t);
+    else state.filters.types.add(t);
+    renderResults();
+  }));
+  $$('.filter-pill[data-feat]').forEach(el => el.addEventListener("click", () => {
+    el.classList.toggle("active");
+    const f = el.dataset.feat;
+    if (state.filters.features.has(f)) state.filters.features.delete(f);
+    else state.filters.features.add(f);
+    renderResults();
+  }));
+  $$('#min-match-filters .filter-pill').forEach(el => el.addEventListener("click", () => {
+    $$('#min-match-filters .filter-pill').forEach(x => x.classList.remove("active"));
+    el.classList.add("active");
+    state.filters.minMatch = parseInt(el.dataset.min, 10);
+    renderResults();
+  }));
+  $("#clear-filters").addEventListener("click", () => {
+    state.filters.types.clear();
+    state.filters.features.clear();
+    state.filters.minMatch = 0;
+    $$('#filter-panel .filter-pill').forEach(x => x.classList.remove("active"));
+    $('#min-match-filters .filter-pill[data-min="0"]').classList.add("active");
+    renderResults();
+  });
+}
+
+function renderResults() {
+  const filtered = state.results.filter(r => {
+    if (state.filters.types.size && !state.filters.types.has(r.provider.type)) return false;
+    for (const f of state.filters.features) {
+      if (!r.provider[f]) return false;
+    }
+    if (r.pct < state.filters.minMatch) return false;
+    return true;
+  });
+
+  const top20 = filtered.slice(0, 20);
+  const grid = $("#results-grid");
+
+  if (!top20.length) {
+    grid.innerHTML = `<div class="empty-state">
+      <h3>No matches with the current filters</h3>
+      <p>Try clearing filters or restarting the wizard.</p>
+    </div>`;
+    return;
+  }
+
+  // Generate a summary line
+  const topMatch = state.results[0];
+  const usedAcross = filtered.length;
+  $("#results-summary").innerHTML = `Showing top ${top20.length} of ${usedAcross} matched providers. Top match: <strong>${topMatch.provider.name}</strong> at <strong>${topMatch.pct}%</strong>.`;
+
+  grid.innerHTML = top20.map((r, i) => {
+    const isTop = i < 3;
+    const tier = matchTier(r.pct);
+    const inShortlist = state.shortlist.has(r.provider.id);
+    const tags = r.provider.strengths.slice(0, 4).map(s => {
+      const lbl = PRIORITIES.find(p => p.id === s)?.label || s;
+      return `<span class="strength-tag">${lbl}</span>`;
+    }).join("");
+    const featTags = [
+      r.provider.hasEnterpriseSLA ? "Enterprise SLA" : null,
+      r.provider.hasGlobalPresence ? "Global" : null,
+      r.provider.supportsSpotInstances ? "Spot" : null,
+      r.provider.offersDedicatedHardware ? "Bare metal" : null
+    ].filter(Boolean).slice(0, 2).map(t => `<span class="strength-tag">${t}</span>`).join("");
+
+    return `
+      <div class="provider-card ${isTop ? "top-match" : ""}">
+        ${isTop ? `<div class="top-match-badge">Top Match</div>` : ""}
+        <div>
+          <div class="provider-name"><a href="https://${r.provider.website}" target="_blank" rel="noopener">${r.provider.name} ↗</a></div>
+          <div class="provider-type">${r.provider.type}</div>
+          <div class="provider-desc">${r.provider.description}</div>
+          <div class="strength-tags">${tags}${featTags}</div>
+        </div>
+        <div>
+          <div class="match-score-block ${tier}">
+            <div class="match-percent ${tier}">${r.pct}%</div>
+            <div class="match-label">match</div>
+          </div>
+          <div class="card-actions">
+            <button class="btn ${inShortlist ? "btn-secondary" : "btn-primary"} btn-sm" data-shortlist="${r.provider.id}">${inShortlist ? "✓ Saved" : "+ Save"}</button>
+            <a class="btn btn-secondary btn-sm" href="https://${r.provider.website}" target="_blank" rel="noopener">Visit ↗</a>
+          </div>
+        </div>
+      </div>`;
+  }).join("");
+
+  $$("[data-shortlist]").forEach(el => el.addEventListener("click", () => {
+    const id = parseInt(el.dataset.shortlist, 10);
+    if (state.shortlist.has(id)) {
+      state.shortlist.delete(id);
+      toast("Removed from shortlist");
+    } else {
+      state.shortlist.add(id);
+      toast("Added to shortlist");
+    }
+    updateShortlistUI();
+    renderResults();
+  }));
+}
+
+/* ============================================================================
+ * Shortlist drawer + CSV export
+ * ========================================================================== */
+function updateShortlistUI() {
+  const n = state.shortlist.size;
+  $("#shortlist-btn").setAttribute("data-count", n);
+}
+function openDrawer() {
+  renderShortlist();
+  $("#shortlist-drawer").classList.add("open");
+  $("#drawer-backdrop").classList.add("open");
+}
+function closeDrawer() {
+  $("#shortlist-drawer").classList.remove("open");
+  $("#drawer-backdrop").classList.remove("open");
+}
+function renderShortlist() {
+  const body = $("#shortlist-body");
+  if (!state.shortlist.size) {
+    body.innerHTML = `<p style="color: var(--text-muted);">Add providers to your shortlist from the results page.</p>`;
+    return;
+  }
+  const items = Array.from(state.shortlist).map(id => PROVIDERS.find(p => p.id === id)).filter(Boolean);
+  body.innerHTML = items.map(p => `
+    <div class="shortlist-item">
+      <div>
+        <div style="font-weight:600;">${p.name}</div>
+        <div style="font-size:.82rem; color: var(--text-muted);">${p.type}</div>
+      </div>
+      <button class="btn btn-ghost btn-sm" data-remove="${p.id}">✕</button>
+    </div>`).join("");
+  $$("[data-remove]", body).forEach(el => el.addEventListener("click", () => {
+    state.shortlist.delete(parseInt(el.dataset.remove, 10));
+    renderShortlist();
+    updateShortlistUI();
+    renderResults();
+  }));
+}
+$("#shortlist-btn").addEventListener("click", openDrawer);
+$("#open-shortlist")?.addEventListener("click", openDrawer);
+$("#close-drawer").addEventListener("click", closeDrawer);
+$("#drawer-backdrop").addEventListener("click", closeDrawer);
+
+function exportCSV() {
+  const list = state.shortlist.size
+    ? Array.from(state.shortlist).map(id => state.results.find(r => r.provider.id === id)).filter(Boolean)
+    : state.results.slice(0, 20);
+  if (!list.length) { toast("No providers to export"); return; }
+
+  const cols = ["Rank","Name","Type","Match %","Website","Description","Enterprise SLA","Global","Spot","Bare metal","Strengths"];
+  const rows = list.map((r, i) => [
+    i + 1,
+    r.provider.name,
+    r.provider.type,
+    r.pct,
+    `https://${r.provider.website}`,
+    r.provider.description,
+    r.provider.hasEnterpriseSLA ? "Yes" : "No",
+    r.provider.hasGlobalPresence ? "Yes" : "No",
+    r.provider.supportsSpotInstances ? "Yes" : "No",
+    r.provider.offersDedicatedHardware ? "Yes" : "No",
+    r.provider.strengths.join("; ")
+  ]);
+  const csv = [cols, ...rows].map(row =>
+    row.map(cell => {
+      const s = String(cell ?? "");
+      return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    }).join(",")
+  ).join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `computematch-shortlist-${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast(`Exported ${list.length} providers`);
+}
+$("#export-csv").addEventListener("click", exportCSV);
+$("#drawer-export").addEventListener("click", exportCSV);
+
+function brokerRequest() {
+  const c = state.answers.contact;
+  if (!c.email) {
+    toast("Please complete contact info in the wizard first");
+    return;
+  }
+  // In production: POST to your lead-capture endpoint.
+  console.log("[broker request]", {
+    contact: c,
+    answers: state.answers,
+    shortlist: Array.from(state.shortlist),
+    timestamp: new Date().toISOString()
+  });
+  toast("Request sent — we'll be in touch within 24h");
+  closeDrawer();
+}
+$("#broker-cta").addEventListener("click", brokerRequest);
+$("#drawer-broker").addEventListener("click", brokerRequest);
+
+/* ============================================================================
+ * Theme toggle
+ * ========================================================================== */
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  $("#icon-sun").classList.toggle("hidden", theme === "dark");
+  $("#icon-moon").classList.toggle("hidden", theme !== "dark");
+  try { localStorage.setItem("cm-theme", theme); } catch {}
+}
+const savedTheme = (() => { try { return localStorage.getItem("cm-theme"); } catch { return null; } })();
+applyTheme(savedTheme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+$("#theme-toggle").addEventListener("click", () => {
+  const cur = document.documentElement.getAttribute("data-theme");
+  applyTheme(cur === "dark" ? "light" : "dark");
+});
+
+/* ============================================================================
+ * Toast
+ * ========================================================================== */
+let toastTimer;
+function toast(msg) {
+  const t = $("#toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+/* ============================================================================
+ * Self-tests (dev sanity — runs once on load, prints to console)
+ * ========================================================================== */
+(function selfTest() {
+  console.assert(PROVIDERS.length === 150, `Expected 150 providers, got ${PROVIDERS.length}`);
+  // Test a known scoring scenario
+  const sample = {
+    useCase: "training", teamSize: "ent", budgetTier: 5,
+    gpuTypes: ["h100"], priorities: ["sla","global","compliance"],
+    requirements: { sla: true, global: true, spotOk: false, bareMetal: false },
+    contact: {}
+  };
+  const ranked = PROVIDERS.map(p => ({ provider: p, ...scoreProvider(p, sample) }))
+    .sort((a, b) => b.pct - a.pct);
+  console.log("[self-test] Top 5 for enterprise H100 training:", ranked.slice(0, 5).map(r => `${r.provider.name} ${r.pct}%`));
+  console.assert(ranked[0].pct >= 80, "Expected top match ≥80% for clear scenario");
+})();
+</script>
+</body>
+</html>
